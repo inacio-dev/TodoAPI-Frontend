@@ -7,4 +7,9 @@ import { UserInterface } from './user.interface'
 })
 export class AuthService {
   currentUserSig = signal<UserInterface | undefined | null>(undefined)
+
+  isUserLoggedIn(): boolean {
+    const currentUser = this.currentUserSig()
+    return currentUser !== undefined && currentUser !== null
+  }
 }

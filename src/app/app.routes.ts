@@ -1,9 +1,12 @@
 import { Routes } from '@angular/router'
 
-import { LoginComponent } from './login/login.component'
-import { SignUpComponent } from './signup/signup.component'
+import { IndexComponent } from './components/index/index.component'
+import { LoginComponent } from './components/login/login.component'
+import { SignUpComponent } from './components/signup/signup.component'
+import { LoggedOutGuard } from './services/auth.guard'
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'cadastro', component: SignUpComponent },
+  { path: '', component: IndexComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
+  { path: 'cadastro', component: SignUpComponent, canActivate: [LoggedOutGuard] },
 ]

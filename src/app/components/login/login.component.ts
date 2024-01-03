@@ -3,8 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { z, ZodError, ZodType } from 'zod'
 
-import { AuthService } from '../services/auth.service'
-import { AxiosRoutes } from '../services/axios-routes'
+import { AuthService } from '../../services/auth.service'
+import { AxiosRoutes } from '../../services/axios-routes'
 
 const LoginSchema: ZodType<{ email: string; password: string }> = z.object({
   email: z.string().email(),

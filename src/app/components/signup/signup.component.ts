@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { HotToastService } from '@ngneat/hot-toast'
 import { z, ZodError, ZodType } from 'zod'
 
-import { AxiosRoutes } from '../services/axios-routes'
+import { AxiosRoutes } from '../../services/axios-routes'
 
 const RegisterSchema: ZodType<{
   email: string
@@ -47,13 +47,7 @@ export class SignUpComponent {
     try {
       const data = RegisterSchema.parse(this.registerForm.value)
 
-      const res = await this.axiosRoute.signUp(
-        data.name,
-        data.email,
-        data.password,
-        data.rpassword,
-        data.surname,
-      )
+      const res = await this.axiosRoute.signUp(data)
 
       this.router.navigateByUrl('/login')
       console.log('Resposta do registro:', res)

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import axios from './axios-config' // Importe o axiosInstance
-import { Task, UserInterface } from './user.interface'
+import { Task, TaskDetails, UserInterface } from './user.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,15 @@ export class AxiosRoutes {
     }
   }
 
+  async createTask(data: Partial<TaskDetails>) {
+    try {
+      const response = await axios.post('tasks/', data)
+      return response.data
+    } catch (error: unknown) {
+      throw new Error('Erro de autenticação')
+    }
+  }
+
   async patchTask(id: number, data: Partial<Task>): Promise<Task> {
     try {
       const response = await axios.patch(`tasks/${id}/`, data)
@@ -52,7 +61,7 @@ export class AxiosRoutes {
     }
   }
 
-  async deleteTask(id: number): Promise<any> {
+  async deleteTask(id: number) {
     try {
       const response = await axios.delete(`tasks/${id}/`)
       return response.data

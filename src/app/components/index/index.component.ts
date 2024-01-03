@@ -1,14 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 
+import { TaskDialogComponent } from '../../dialogs/task.dialog'
 import { AuthService } from '../../services/auth.service'
 import { AxiosRoutes } from '../../services/axios-routes'
-import { Task } from '../../services/user.interface'
+import { Task, TaskDetails } from '../../services/user.interface'
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {
@@ -20,6 +23,7 @@ export class IndexComponent implements OnInit {
   constructor(
     private axiosRoute: AxiosRoutes,
     private router: Router,
+    public dialog: MatDialog,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -33,6 +37,20 @@ export class IndexComponent implements OnInit {
       this.authService.currentUserSig.set(null)
       this.router.navigate(['/login'])
     }
+  }
+
+  createTask() {
+    this.dialog.open(TaskDialogComponent)
+    this.dialog.afterAllClosed.subscribe(async () => {
+      await this.getListTask()
+    })
+  }
+
+  editTask(task: TaskDetails) {
+    this.dialog.open(TaskDialogComponent, { data: task })
+    this.dialog.afterAllClosed.subscribe(async () => {
+      await this.getListTask()
+    })
   }
 
   async getListTask() {

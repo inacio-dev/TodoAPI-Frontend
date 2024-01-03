@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
-import { HotToastService } from '@ngneat/hot-toast'
 import { z, ZodError, ZodType } from 'zod'
 
 import { AxiosRoutes } from '../../services/axios-routes'
@@ -38,10 +37,7 @@ export class SignUpComponent {
     rpassword: ['', [Validators.required]],
   })
 
-  constructor(
-    private axiosRoute: AxiosRoutes,
-    private toast: HotToastService,
-  ) {}
+  constructor(private axiosRoute: AxiosRoutes) {}
 
   async register(): Promise<void> {
     try {

@@ -1,0 +1,32 @@
+<h1 mat-dialog-title class="mb-4 text-xl font-bold">Tarefa</h1>
+<div mat-dialog-content class="space-y-4">
+  <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+    <div class="flex flex-col">
+      <label for="description" class="mb-1 font-semibold">Título:</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        class="rounded-md border border-gray-300 px-3 py-2 text-black"
+        [(ngModel)]="data && data.title"
+        formControlName="title"
+      />
+    </div>
+    <div class="flex flex-col">
+      <label for="description" class="mb-1 font-semibold">Descrição:</label>
+      <textarea
+        id="description"
+        name="description"
+        formControlName="description"
+        [(ngModel)]="data && data.description"
+        class="rounded-md border border-gray-300 px-3 py-2 text-black"
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      class="rounded-md bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+    >
+      Salvar Tarefa
+    </button>
+  </form>
+</div>

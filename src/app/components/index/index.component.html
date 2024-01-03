@@ -1,41 +1,47 @@
 <main class="container mx-auto">
   <h1 class="my-4 text-3xl font-bold">Lista de Tarefas</h1>
 
-  <button
-    class="absolute right-0 top-0 m-4 rounded-lg bg-red-500 px-4 py-2 text-white"
-    (click)="logout()"
-  >
-    Logout
-  </button>
+  <div class="absolute right-0 top-0 flex items-center justify-center">
+    <button class="m-4 rounded-lg bg-green-500 px-4 py-2 text-white" (click)="createTask()">
+      Nova Tarefa
+    </button>
+
+    <button class="m-4 rounded-lg bg-red-500 px-4 py-2 text-white" (click)="logout()">
+      Logout
+    </button>
+  </div>
 
   <div class="mt-4">
     <ul class="divide-y divide-gray-200">
       @for (task of tasks; track task.id) {
-        <li
-          (mouseenter)="showDelete(task.id)"
-          (mouseleave)="showDelete(null)"
-          class="flex items-center justify-between py-4"
-        >
-          <div class="flex items-center">
-            <span class="text-lg">{{ task.title }}</span>
-            <span class="ml-2 text-sm">{{ task.description }}</span>
-          </div>
-          <div class="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              [checked]="task.completed"
-              (change)="toggleTaskStatus(task.id, !task.completed)"
-              class="h-5 w-5 text-blue-500"
-            />
-            @if (taskDelete(task.id)) {
-              <button
-                class="rounded-lg bg-red-500 px-3 py-1 text-sm text-white"
-                (click)="deleteTask(task.id)"
-              >
-                Excluir
-              </button>
-            }
-          </div>
+        <li class="flex w-full">
+          <button
+            (mouseenter)="showDelete(task.id)"
+            (mouseleave)="showDelete(null)"
+            class="flex w-full items-center justify-between py-4"
+            (click)="editTask(task)"
+          >
+            <div class="flex items-center">
+              <span class="text-lg">{{ task.title }}</span>
+              <span class="ml-2 text-sm">{{ task.description }}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                [checked]="task.completed"
+                (change)="toggleTaskStatus(task.id, !task.completed)"
+                class="h-5 w-5 text-blue-500"
+              />
+              @if (taskDelete(task.id)) {
+                <button
+                  class="rounded-lg bg-red-500 px-3 py-1 text-sm text-white"
+                  (click)="deleteTask(task.id)"
+                >
+                  Excluir
+                </button>
+              }
+            </div>
+          </button>
         </li>
       }
     </ul>

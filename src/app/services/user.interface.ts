@@ -12,3 +12,8 @@ export type Task = {
   completed: boolean
   user: number
 }
+
+export type TaskDetails = {
+  title: string
+  description: string
+}

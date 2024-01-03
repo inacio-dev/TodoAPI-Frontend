@@ -1,0 +1,35 @@
+<main class="flex min-h-screen flex-col items-center justify-center">
+  <h2 class="mb-8 text-3xl font-bold">Login</h2>
+  <form class="w-full max-w-sm" [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="mb-4">
+      <label for="email" class="mb-1 block">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        formControlName="email"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="password" class="mb-1 block">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        formControlName="password"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <button
+      type="submit"
+      class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+    >
+      Login
+    </button>
+  </form>
+
+  <div class="mt-4">
+    <p>Não possui uma conta? <a href="/cadastro" class="text-blue-500">Cadastre-se</a></p>
+  </div>
+</main>

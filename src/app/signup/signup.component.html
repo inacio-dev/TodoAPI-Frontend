@@ -1,0 +1,65 @@
+<main class="flex min-h-screen flex-col items-center justify-center">
+  <h2 class="mb-8 text-3xl font-bold">Cadastro</h2>
+  <form class="w-full max-w-sm" [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="mb-4">
+      <label for="name" class="mb-1 block">Nome:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        formControlName="name"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="surname" class="mb-1 block">Sobrenome:</label>
+      <input
+        type="text"
+        id="surname"
+        name="surname"
+        formControlName="surname"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="email" class="mb-1 block">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        formControlName="email"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="password" class="mb-1 block">Senha:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        formControlName="password"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="rpassword" class="mb-1 block">Confirmar Senha:</label>
+      <input
+        type="password"
+        id="rpassword"
+        name="rpassword"
+        formControlName="rpassword"
+        class="w-full rounded border border-gray-300 px-3 py-2"
+      />
+    </div>
+    <button
+      type="submit"
+      class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+    >
+      Cadastrar
+    </button>
+  </form>
+
+  <div class="mt-4">
+    <p>Já possui uma conta? <a href="/login" class="text-blue-500">Faça login</a></p>
+  </div>
+</main>

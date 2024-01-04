@@ -9,6 +9,7 @@ import {
 import { z, ZodError, ZodType } from 'zod'
 
 import { AxiosRoutes } from '../services/axios-routes'
+import { ToastModals } from '../services/toast.modals'
 import { Task, TaskDetails } from '../services/user.interface'
 
 const TaskSchema: ZodType<TaskDetails> = z.object({
@@ -27,6 +28,7 @@ export class TaskDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Task,
     private axiosRoute: AxiosRoutes,
     public dialogRef: MatDialogRef<TaskDialogComponent>,
+    public toast: ToastModals,
   ) {}
 
   fb = inject(FormBuilder)
@@ -36,6 +38,10 @@ export class TaskDialogComponent {
     description: ['', [Validators.required]],
   })
 
+  close(): void {
+    this.dialogRef.close()
+  }
+
   async saveTask(): Promise<void> {
     try {
       const data = TaskSchema.parse(this.taskForm.value)
@@ -43,17 +49,27 @@ export class TaskDialogComponent {
       if (this.data) {
         const res = await this.axiosRoute.patchTask(this.data.id, data)
         console.log('Resposta do registro:', res)
+
+        this.toast.success('Tarefa editada com sucesso.')
       } else {
         const res = await this.axiosRoute.createTask(data)
         console.log('Resposta do registro:', res)
+
+        this.toast.success('Tarefa criada com sucesso.')
       }
 
       this.dialogRef.close()
     } catch (error: unknown) {
       if (error instanceof ZodError) {
         console.error('Erro de validação:', error.errors)
+
+        error.errors.map((error) => {
+          this.toast.error(error.message)
+        })
       } else {
         console.error('Erro:', error)
+
+        this.toast.error('Erro inesperado.')
       }
     }
   }

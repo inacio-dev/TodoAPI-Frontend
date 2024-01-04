@@ -5,10 +5,13 @@ import { z, ZodError, ZodType } from 'zod'
 
 import { AuthService } from '../../services/auth.service'
 import { AxiosRoutes } from '../../services/axios-routes'
+import { ToastModals } from '../../services/toast.modals'
 
 const LoginSchema: ZodType<{ email: string; password: string }> = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string({ required_error: 'Email é obrigatório.' }).email('Insira um email válido.'),
+  password: z
+    .string({ required_error: 'Senha é obrigatória.' })
+    .min(6, 'Senha tem mínimo de 6 caracteres.'),
 })
 
 @Component({
@@ -27,7 +30,10 @@ export class LoginComponent {
     password: ['', Validators.required],
   })
 
-  constructor(private axiosRoute: AxiosRoutes) {}
+  constructor(
+    private axiosRoute: AxiosRoutes,
+    public toast: ToastModals,
+  ) {}
 
   async login(): Promise<void> {
     try {
@@ -38,10 +44,16 @@ export class LoginComponent {
         this.router.navigateByUrl('/')
 
         console.log('Resposta do login:', res)
+
+        this.toast.success('Login efetuado com sucesso.')
       })
     } catch (error: unknown) {
       if (error instanceof ZodError) {
         console.error('Erro de validação:', error.errors)
+
+        error.errors.map((error) => {
+          this.toast.error(error.message)
+        })
       } else {
         console.error('Erro:', error)
       }

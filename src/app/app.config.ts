@@ -1,10 +1,16 @@
 import { ApplicationConfig } from '@angular/core'
 import { provideClientHydration } from '@angular/platform-browser'
-import { provideRouter } from '@angular/router'
-
-import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations'
+import { provideRouter } from '@angular/router'
+import { provideHotToastConfig } from '@ngneat/hot-toast'
+
+import { routes } from './app.routes'
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideAnimations()],
+  providers: [
+    provideRouter(routes),
+    provideClientHydration(),
+    provideAnimations(),
+    provideHotToastConfig(),
+  ],
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import axios from './axios-config' // Importe o axiosInstance
+import axios from './axios-config'
 import { Task, TaskDetails, UserInterface } from './user.interface'
 
 @Injectable({

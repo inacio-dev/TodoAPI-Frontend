@@ -7,6 +7,7 @@ import { Router } from '@angular/router'
 import { TaskDialogComponent } from '../../dialogs/task.dialog'
 import { AuthService } from '../../services/auth.service'
 import { AxiosRoutes } from '../../services/axios-routes'
+import { ToastModals } from '../../services/toast.modals'
 import { Task, TaskDetails } from '../../services/user.interface'
 
 @Component({
@@ -43,6 +44,7 @@ export class IndexComponent implements OnInit {
     private axiosRoute: AxiosRoutes,
     private router: Router,
     public dialog: MatDialog,
+    public toast: ToastModals,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -76,8 +78,11 @@ export class IndexComponent implements OnInit {
 
       document.body.removeChild(anchorElement)
       window.URL.revokeObjectURL(href)
+
+      this.toast.success('Arquivo .xlsx gerado com sucesso.')
     } catch (error: unknown) {
       console.log(error)
+      this.toast.error('Erro inesperado.')
     }
   }
 
@@ -98,8 +103,11 @@ export class IndexComponent implements OnInit {
       })
 
       await this.getListTask()
+
+      this.toast.success('Novas tarefas adicionadas.')
     } catch (error: unknown) {
       console.log(error)
+      this.toast.error('Erro inesperado.')
     }
   }
 
@@ -124,12 +132,14 @@ export class IndexComponent implements OnInit {
       this.tasks = data
     } catch (error: unknown) {
       console.log(error)
+      this.toast.error('Erro inesperado.')
     }
   }
 
   async logout() {
     this.authService.currentUserSig.set(null)
     this.router.navigate(['/login'])
+    this.toast.success('Logout efetuado com sucesso.')
   }
 
   async toggleTaskStatus(id: number, value: boolean) {
@@ -149,8 +159,11 @@ export class IndexComponent implements OnInit {
       await this.axiosRoute.deleteTask(id)
 
       await this.getListTask()
+
+      this.toast.success('Tarefa deletada com sucesso.')
     } catch (error: unknown) {
       console.log(error)
+      this.toast.error('Erro inesperado.')
     }
   }
 

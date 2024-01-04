@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
-const baseURL = 'http://0.0.0.0:8000/api/' // Insira o URL do seu serviço backend
+const baseURL = 'http://0.0.0.0:8000/api/'
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,

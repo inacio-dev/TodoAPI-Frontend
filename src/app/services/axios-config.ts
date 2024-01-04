@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
-const baseURL = 'https://todo-api-inacio-014fd3adf0e4.herokuapp.com/'
+const baseURL = 'https://todo-api-inacio-014fd3adf0e4.herokuapp.com/api/'
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,

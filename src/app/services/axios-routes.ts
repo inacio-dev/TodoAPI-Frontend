@@ -69,4 +69,30 @@ export class AxiosRoutes {
       throw new Error('Erro de autenticação')
     }
   }
+
+  async exportTask() {
+    try {
+      const response = await axios.get(`tasks/process/`, {
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        },
+      })
+      return response.data
+    } catch (error: unknown) {
+      throw new Error('Erro de autenticação')
+    }
+  }
+
+  async importTask(data: unknown) {
+    try {
+      const response = await axios.post(`tasks/process/`, data, {
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        },
+      })
+      return response.data
+    } catch (error: unknown) {
+      throw new Error('Erro de autenticação')
+    }
+  }
 }

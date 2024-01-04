@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
@@ -16,9 +17,27 @@ import { Task, TaskDetails } from '../../services/user.interface'
 })
 export class IndexComponent implements OnInit {
   authService = inject(AuthService)
+  fb = inject(FormBuilder)
 
   tasks: Task[] = []
   showDeleteTask: number | null = null
+
+  fileForm = this.fb.nonNullable.group({
+    file: ['', Validators.required],
+  }) as FormGroup & { value: { file: File } }
+
+  onFileChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement
+    if (inputElement && inputElement.files && inputElement.files.length > 0) {
+      const file = inputElement.files[0]
+      this.fileForm.patchValue({
+        file: file,
+      })
+
+      inputElement.value = ''
+      this.importTask()
+    }
+  }
 
   constructor(
     private axiosRoute: AxiosRoutes,
@@ -36,6 +55,51 @@ export class IndexComponent implements OnInit {
     } catch (error: unknown) {
       this.authService.currentUserSig.set(null)
       this.router.navigate(['/login'])
+    }
+  }
+
+  async exportTask() {
+    try {
+      const response = await this.axiosRoute.exportTask()
+
+      const blob = new Blob([s2ab(atob(response))])
+
+      const href = window.URL.createObjectURL(blob)
+
+      const anchorElement = document.createElement('a')
+
+      anchorElement.href = href
+      anchorElement.download = 'tasks.xlsx'
+
+      document.body.appendChild(anchorElement)
+      anchorElement.click()
+
+      document.body.removeChild(anchorElement)
+      window.URL.revokeObjectURL(href)
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  }
+
+  async importTask() {
+    try {
+      const formData = new FormData()
+
+      const fileSourceValue = this.fileForm.get('file')?.value
+
+      if (fileSourceValue !== null && fileSourceValue !== undefined) {
+        formData.append('file', fileSourceValue)
+      }
+
+      await this.axiosRoute.importTask(formData)
+
+      this.fileForm.patchValue({
+        file: '',
+      })
+
+      await this.getListTask()
+    } catch (error: unknown) {
+      console.log(error)
     }
   }
 
@@ -97,4 +161,11 @@ export class IndexComponent implements OnInit {
   taskDelete(id: number) {
     return this.showDeleteTask === id
   }
+}
+
+function s2ab(s: string) {
+  const buf = new ArrayBuffer(s.length)
+  const view = new Uint8Array(buf)
+  for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+  return buf
 }

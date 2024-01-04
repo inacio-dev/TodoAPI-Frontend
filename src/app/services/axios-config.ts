@@ -16,6 +16,9 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    config.xsrfCookieName = 'csrftoken'
+    config.xsrfHeaderName = 'X-CSRFToken'
+    config.withCredentials = true
     return config
   },
   (error) => {

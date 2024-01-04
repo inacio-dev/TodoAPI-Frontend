@@ -40,7 +40,7 @@ export class TaskDialogComponent {
     try {
       const data = TaskSchema.parse(this.taskForm.value)
 
-      if (this.data.id) {
+      if (this.data) {
         const res = await this.axiosRoute.patchTask(this.data.id, data)
         console.log('Resposta do registro:', res)
       } else {
